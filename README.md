@@ -12,7 +12,7 @@ List of changes implemented:
 -> For instance, if items stacked at z=0 has z=1, z=2, z=3 values respectively and a new item to be stacked cannot fit at z=0, it checks whether it can be stacked at z=1. If it can't, it checks for its stackability at z=2, then z=3, etc. This is done while comparing the new item's z-value from the layer it is stacked on and the total depth of the bin.
 
 3. Created an area mask
--> If a bigger object is stacked at for example z=1 while there is still some space beneath it at z=0, and a new item to be stacked can fit at z=0 under that big object, then the new item does not go under that spot at z=0 (for realisitic palletizing/bin packing). Instead it looks for possible space at z=0 which isn't masked by other objects on top, or simple get stacked at another layer which isn't masked.
+-> If a bigger object is stacked at for example z=1 while there is still some space beneath it at z=0, and a new item to be stacked can fit at z=0 under that big object, then the new item does not go under that spot at z=0 (for realisitic palletizing/bin packing). Instead it looks for possible space at z=0 which isn't masked by other objects on top, or simply get stacked at another layer which isn't masked.
 
 
 TODO list:
