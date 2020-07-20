@@ -14,7 +14,10 @@ List of changes implemented:
 3. Created an area mask
 -> If a bigger object is stacked at for example z=1 while there is still some space beneath it at z=0, and a new item to be stacked can fit at z=0 under that big object, then the new item does not go under that spot at z=0 (for realisitic palletizing/bin packing). Instead it looks for possible space at z=0 which isn't masked by other objects on top, or simply get stacked at another layer which isn't masked.
 
+4. Center of Gravity [Rather, percentage of rectanglular portion that is stacked on top of other items] calculation for its stackability at another layer
+-> sometimes, for instance, if z=0 is filled by one tiny object and a new item to be stacked has identical x,y dimensions as xy-plane of the bin (provided it cannot be reoriented due to its depth as well), this item gets stacked on that tiny object; The big object should be stacked only when certain % of its area is directly on top of other objects (perhaps <50% in ideal case, but I set the threshhold to 60% for more realistic cases)
+
 
 TODO list:
-Center of Gravity [Rather, percentage of rectanglular portion that is stacked on top of other items] calculation for its stackability at another layer
--> sometimes, for instance, if z=0 is filled by one tiny object and a new item to be stacked has identical x,y dimensions as xy-plane of the bin (provided it cannot be reoriented due to its depth as well), this item gets stacked on that tiny object; The big object should be stacked only when certain % of its area is directly on top of other objects (perhaps <50% in ideal case, and <60% in real case (?))
+Stacking items are current done by referencing other stacked objects' vertices.
+This works well for most cases; but in a rare case where referencing a stacked object's (e.g., at layer z=1) vertix makes the item float and thus puts it in a situation where the shared area with other stacked objects underneath (e.g., at z=0) is <60% (From 4.) -> In this case, the item is not stacked even though there is enough space and utilizing this space could give the shared area >60%.
