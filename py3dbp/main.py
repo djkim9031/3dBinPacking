@@ -229,6 +229,8 @@ class Bin:
             dimension = item.get_dimension()
             if axis == 1:
                 #Height(L), Height(R) Check - when height_l is false, check height_r validity
+                
+                
                 if (
                     self.width < pivot[0] + dimension[0] or
                     self.height < pivot[1] + dimension[1] or
@@ -272,8 +274,8 @@ class Bin:
                     continue
 
             fit = True
-            
-            
+            #if(item.name=='15' and float(base_z)==3.969):
+            #    print(item.position,item.dimension,axis)
 
             for current_item_in_bin in self.apparent_items:
                 if intersect(current_item_in_bin, item):
@@ -374,6 +376,10 @@ class Packer:
                 z_layers.append(base_z)
             
                 #Making apparent items for base_z
+                #if item.name=='15':
+                #    base_z = bin.item_depths[12]
+                #    print(base_z)
+                    
                 offset_depths = [x-base_z for x in bin.item_depths]
                 if base_z==max(bin.item_depths):
                     pivs=[]
@@ -398,7 +404,6 @@ class Packer:
                         #This xy-plane is occupied
                         #apparent_item instance has to be defined to mask this area on xy-plane
                         apparent_item = Item("apparent_"+bin.items[key].name,bin.items[key].dimension[0],bin.items[key].dimension[1],d,0)
-                        apparent_item.rotation_type = bin.items[key].rotation_type
                         apparent_item.position = [bin.items[key].position[0],bin.items[key].position[1],base_z]
                         apparent_item.dimension = [bin.items[key].dimension[0],bin.items[key].dimension[1],d]
                         apparent_item.position_elevated = [bin.items[key].position[0],bin.items[key].position[1],d+base_z]
@@ -428,7 +433,7 @@ class Packer:
 
                     for ib in items_in_bin:
                         pivot = [0, 0, 0]
-                        w, h, d = ib.get_dimension()
+                        [w, h, d] = ib.dimension
                         if axis == Axis.WIDTH:
                             pivot = [
                                 ib.position[0] + w,     #ib.position[2]=base_z
@@ -451,21 +456,31 @@ class Packer:
                         if bin.put_item_subsequent_layers(item, pivot, axis, w, base_z, z_layers):
                             fitted = True
                             #Making apparent items at z<base_z among z_layers values when the item is stacked
-                            for l in range(len(z_layers)-1):
+                            for l,ly in enumerate(z_layers):
+                                assert(ly<=base_z)
+                                for ap_i in bin.apparent_items:
+                                    if ap_i.name.startswith("apparent_"):
+                                        apparent_item = Item("lower_projection_"+ap_i.name,ap_i.dimension[0],ap_i.dimension[1],base_z-ly,0)
+                                        apparent_item.position = [ap_i.position[0],ap_i.position[1],ly]
+                                        apparent_item.dimension = [ap_i.dimension[0],ap_i.dimension[1],base_z-ly]
+                                        apparent_item.position_elevated = [ap_i.position[0],ap_i.position[1],base_z]
+                                        bin.put_apparent_item(apparent_item)
                                 for item in bin.items:
-                                    if item.position[2]==base_z:
-                                        apparent_item = Item("apparent_"+item.name+"_projected_underneath",item.dimension[0],item.dimension[1],base_z-l,0)
-                                        apparent_item.rotation_type = item.rotation_type
-                                        apparent_item.position = [item.position[0],item.position[1],l]
-                                        apparent_item.dimension = [item.dimension[0],item.dimension[1],base_z-l]
+                                    if item.position[2]==base_z and ly<base_z:
+                                        apparent_item = Item("lower_projection_"+item.name,item.dimension[0],item.dimension[1],base_z-ly,0)
+                                        apparent_item.position = [item.position[0],item.position[1],ly]
+                                        apparent_item.dimension = [item.dimension[0],item.dimension[1],base_z-ly]
                                         apparent_item.position_elevated = [item.position[0],item.position[1],base_z]
                                         bin.put_apparent_item(apparent_item)
+                                        
                             break
                     if fitted:
                         return
                     else:
+                        if axis==2:
+                            break
+                    if axis==2:
                         break
-                    break
                 k=base_z
                 if k==max(bin.item_depths):
                     break
