@@ -22,6 +22,25 @@ def intersect(item1, item2):
         rect_intersect(item1, item2, Axis.WIDTH, Axis.HEIGHT)
     )
 
+def intersect_area(item1, item2):
+    shared_area_proportion = 0.0
+    if intersect(item1, item2):
+        if(item1.position[0]+item1.dimension[0]<=item2.position[0]+item2.dimension[0]):
+            dx = item1.position[0]+item1.dimension[0]-max(item1.position[0],item2.position[0])
+        else:
+            dx = item2.position[0]+item2.dimension[0]-max(item1.position[0],item2.position[0])
+            
+        if(item1.position[1]+item1.dimension[1]<=item2.position[1]+item2.dimension[1]):
+            dy = item1.position[1]+item1.dimension[1]-max(item1.position[1],item2.position[1])
+        else:
+            dy = item2.position[1]+item2.dimension[1]-max(item1.position[1],item2.position[1])
+        
+        w = item2.dimension[0]
+        h = item2.dimension[1]
+        shared_area_proportion = (float(dx)*float(dy))/(float(w)*float(h))
+     
+    return shared_area_proportion
+
 
 def get_limit_number_of_decimals(number_of_decimals):
     return Decimal('1.{}'.format('0' * number_of_decimals))
