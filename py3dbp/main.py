@@ -180,6 +180,9 @@ class Bin:
                 item.position = pivot
                 continue
             
+            #if(item.name=='10' and axis==1 and pivot[0]==0 and float(pivot[1])==7.873):
+                #print(item.position)
+            
 
             for current_item_in_bin in self.items:
                 if intersect(current_item_in_bin, item):
@@ -373,6 +376,9 @@ class Packer:
                 z_layers.append(base_z)
             
                 #Making apparent items for base_z
+                #if item.name=='15':
+                #    base_z = bin.item_depths[12]
+                #    print(base_z)
                     
                 offset_depths = [x-base_z for x in bin.item_depths]
                 if base_z==max(bin.item_depths):
@@ -387,7 +393,9 @@ class Packer:
                                 pivs.append(piv)
                                 count_A+=1
                             except:
-                                piv = bin.items[count_B].position
+                                piv = [0,0,0]
+                                piv[0] = bin.items[count_B].position[0]
+                                piv[1] = bin.items[count_B].position[1]
                                 piv[2] = base_z
                                 pivs.append(piv)
                                 count_B+=1
@@ -403,6 +411,8 @@ class Packer:
                         apparent_item.position_elevated = [bin.items[key].position[0],bin.items[key].position[1],d+base_z]
                         #This apprent_item has to be put in the bin to mask the area already occupied by the actual item
                         bin.put_apparent_item(apparent_item)
+                    elif d==0: #To get xy-plane of an item stacked underneath
+                        pass
                     
             
  
@@ -411,7 +421,10 @@ class Packer:
                     responses=[]
                     for piv in pivs:
                         response = bin.put_item_subsequent_layers(item, piv, 0, 0, base_z, z_layers)
-                        responses.append(response)
+                        if response==1:
+                            responses.append(response)
+                            break
+                        
                     fit_test=0
                     for response in responses:
                         fit_test+=response
