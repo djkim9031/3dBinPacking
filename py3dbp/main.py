@@ -180,9 +180,6 @@ class Bin:
                 item.position = pivot
                 continue
             
-            #if(item.name=='10' and axis==1 and pivot[0]==0 and float(pivot[1])==7.873):
-                #print(item.position)
-            
 
             for current_item_in_bin in self.items:
                 if intersect(current_item_in_bin, item):
@@ -376,9 +373,6 @@ class Packer:
                 z_layers.append(base_z)
             
                 #Making apparent items for base_z
-                #if item.name=='15':
-                #    base_z = bin.item_depths[12]
-                #    print(base_z)
                     
                 offset_depths = [x-base_z for x in bin.item_depths]
                 if base_z==max(bin.item_depths):
@@ -459,7 +453,7 @@ class Packer:
                             for l,ly in enumerate(z_layers):
                                 assert(ly<=base_z)
                                 for ap_i in bin.apparent_items:
-                                    if ap_i.name.startswith("apparent_"):
+                                    if ap_i.name.startswith("apparent_") and ly<base_z:
                                         apparent_item = Item("lower_projection_"+ap_i.name,ap_i.dimension[0],ap_i.dimension[1],base_z-ly,0)
                                         apparent_item.position = [ap_i.position[0],ap_i.position[1],ly]
                                         apparent_item.dimension = [ap_i.dimension[0],ap_i.dimension[1],base_z-ly]
