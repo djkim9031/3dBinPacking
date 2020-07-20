@@ -19,9 +19,7 @@ def rect_intersect(item1, item2, x, y):
 
 def intersect(item1, item2):
     return (
-        rect_intersect(item1, item2, Axis.WIDTH, Axis.HEIGHT) #and
-        #rect_intersect(item1, item2, Axis.HEIGHT, Axis.DEPTH) and
-        #rect_intersect(item1, item2, Axis.WIDTH, Axis.DEPTH)
+        rect_intersect(item1, item2, Axis.WIDTH, Axis.HEIGHT)
     )
 
 
