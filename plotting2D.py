@@ -26,7 +26,7 @@ for i in a.items:
     x.append(x_)
     y.append(y_)
     color.append("yellow")
-    fill_alpha.append(i.dimension[2]/20)
+    fill_alpha.append(i.dimension[2]/a.depth)
 
 
 # plotting the graph  
