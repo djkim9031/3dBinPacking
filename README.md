@@ -19,7 +19,7 @@ List of changes implemented:
 
 5. 2D and 3D visulization
 -> 2D for xy-plane visualization (Accurate)
--> 3D for overall visualization (The library used seems to render graphics erroneously in some cases, but just for in terms of understanding how items are stacked it works just as well!
+-> 3D for overall visualization (The library used seems to render graphics erroneously in some cases, but in terms of understanding how items are stacked it works just as well!
 
 
 TODO list:
