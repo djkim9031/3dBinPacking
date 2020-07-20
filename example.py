@@ -20,6 +20,7 @@ packer.add_item(Item('2', 3.9370, 1.9685, 1.9685, 2))
 packer.pack()
 packer.add_item(Item('3', 3.9370, 1.9685, 1.9685, 3))
 packer.pack()
+
 packer.add_item(Item('4', 7.8740, 3.9370, 1.9685, 4))
 packer.pack()
 packer.add_item(Item('5', 7.8740, 3.9370, 1.9685, 5))
@@ -38,31 +39,16 @@ packer.add_item(Item('11', 7.8740, 3.9370, 1.9685, 10))
 packer.pack()
 packer.add_item(Item('12', 7.8740, 3.9370, 1.9685, 11))
 packer.pack()
-packer.add_item(Item('250g [powder 11]', 7, 3.770, 3.9685, 11))
+packer.add_item(Item('13', 7, 3.770, 3.9685, 11))
 packer.pack()
-packer.add_item(Item('7', 15.5, 6, 10, 6))
+packer.add_item(Item('14', 7.1, 3.770, 3.9685, 10))
 packer.pack()
-
-
-
-#packer.add_item(Item('250g [powder 12]', 7.8740, 3.9370, 1.9685, 6))
-#packer.pack()
-#packer.add_item(Item('250g [powder 7]', 7.8740, 3.9370, 1.9685, 7))
-#packer.pack()
-#packer.add_item(Item('250g [powder 8]', 7.8740, 3.9370, 1.9685, 8))
-#packer.pack()
-
-
-
-#packer.add_item(Item('250g [powder 9]', 7.8740, 3.9370, 1.9685, 9))
-#packer.add_item(Item('250g [powder 4]', 7.8740, 3.9370, 1.9685, 4))
-#packer.add_item(Item('250g [powder 5]', 7.8740, 3.9370, 1.9685, 5))
-#packer.add_item(Item('250g [powder 6]', 7.8740, 3.9370, 1.9685, 6))
-#packer.add_item(Item('250g [powder 7]', 7.8740, 3.9370, 1.9685, 7))
-#packer.add_item(Item('250g [powder 8]', 7.8740, 3.9370, 1.9685, 8))
-#packer.add_item(Item('250g [powder 9]', 7.8740, 3.9370, 1.9685, 9))
-
-#packer.pack()
+packer.add_item(Item('15', 7, 3.770, 28, 10))
+packer.pack()
+packer.add_item(Item('16', 7, 3.770, 20, 10))
+packer.pack()
+packer.add_item(Item('17', 7, 3.770, 20, 10))
+packer.pack()
 
 for b in packer.bins:
     print(":::::::::::", b.string())
@@ -77,7 +63,6 @@ for b in packer.bins:
 
     print("***************************************************")
     print("***************************************************")
-    
     
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
