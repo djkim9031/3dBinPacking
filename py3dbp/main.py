@@ -1,5 +1,5 @@
 from .constants import RotationType, Axis
-from .auxiliary_methods import intersect, set_to_decimal
+from .auxiliary_methods import intersect, set_to_decimal, intersect_area
 
 DEFAULT_NUMBER_OF_DECIMALS = 3
 START_POSITION = [0, 0, 0]
@@ -83,6 +83,7 @@ class Bin:
         #For layers at z>0 calculations - These are temporary values
         self.item_depths = []
         self.apparent_items = []
+        self.apparent_items_temp = [] #For calculation of total intersect_area under an item's layer to assess stackability (Center of Gravity Approximation)
 
     def format_numbers(self, number_of_decimals):
         self.width = set_to_decimal(self.width, number_of_decimals)
@@ -285,6 +286,15 @@ class Bin:
                 item.position = pivot
                 continue
             
+            #Testing how much xy-plane area of the item to be stacked is shared with other items underneath 
+            #It's an approximation for center of gravity consideration. If the shared_area is less than 60%, the item does not get stacked because the item shouldn't float
+            area = 0
+            for temp_item in self.apparent_items_temp:
+                area += intersect_area(temp_item, item)
+            if area<0.6:
+                fit=False 
+            print("Item_"+item.name+" at layer z="+str(base_z)+", area shared with other objects underneath: ",area)
+            
 
             if fit:
                 if self.get_total_weight() + item.weight > self.max_weight:
@@ -372,13 +382,16 @@ class Packer:
             k=0
             while True:
                 base_z = min(num for num in bin.item_depths if num>k)
-                print(base_z)
+                #print(base_z)
                 z_layers.append(base_z)
+                
+                #Finding stacked items whose elevation makes the base_z and save at the temporary bin.apparent_items_temp
+                bin.apparent_items_temp=[]
+                for item_ in bin.items:
+                    if item_.position_elevated[2]==base_z:
+                        bin.apparent_items_temp.append(item_)
             
                 #Making apparent items for base_z
-                #if item.name=='15':
-                #    base_z = bin.item_depths[12]
-                #    print(base_z)
                     
                 offset_depths = [x-base_z for x in bin.item_depths]
                 if base_z==max(bin.item_depths):
@@ -411,10 +424,7 @@ class Packer:
                         apparent_item.position_elevated = [bin.items[key].position[0],bin.items[key].position[1],d+base_z]
                         #This apprent_item has to be put in the bin to mask the area already occupied by the actual item
                         bin.put_apparent_item(apparent_item)
-                    elif d==0: #To get xy-plane of an item stacked underneath
-                        pass
-                    
-            
+
  
                 #Now, put the actual item at the base_z layer
                 if not bin.apparent_items:
