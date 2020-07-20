@@ -18,7 +18,9 @@ List of changes implemented:
 -> sometimes, for instance, if z=0 is filled by one tiny object and a new item to be stacked has identical x,y dimensions as xy-plane of the bin (provided it cannot be reoriented due to its depth as well), this item gets stacked on that tiny object; The big object should be stacked only when certain % of its area is directly on top of other objects (perhaps <50% in ideal case, but I set the threshhold to 60% for more realistic cases)
 
 5. 2D and 3D visulization
+
 -> 2D for xy-plane visualization (Accurate)
+
 -> 3D for overall visualization (The library used seems to render graphics erroneously in some cases, but just for in terms of understanding how items are stacked it works just as well!
 
 
